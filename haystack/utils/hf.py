@@ -136,7 +136,7 @@ def deserialize_hf_model_kwargs(kwargs: Dict[str, Any]):
 
 def resolve_hf_device_map(device: Optional[ComponentDevice], model_kwargs: Optional[Dict[str, Any]]) -> Dict[str, Any]:
     """
-    Update `model_kwargs` to include the keyword argument `device_map` based on `device` if `device_map` is not already present in `model_kwargs`.
+    Update `model_kwargs` to include the keyword argument `device_map`.
 
     This method is useful you want to force loading a transformers model when using `AutoModel.from_pretrained` to
     use `device_map`.

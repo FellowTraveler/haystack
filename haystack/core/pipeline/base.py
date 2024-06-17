@@ -144,7 +144,8 @@ class PipelineBase:
         :param callbacks:
             Callbacks to invoke during deserialization.
         :param kwargs:
-            `components`: a dictionary of {name: instance} to reuse instances of components instead of creating new ones.
+            `components`: a dictionary of {name: instance} to reuse instances of components instead of creating new
+            ones.
         :returns:
             Deserialized component.
         """
@@ -432,7 +433,8 @@ class PipelineBase:
             # There's no possible connection between these two components
             if len(sender_socket_candidates) == len(receiver_socket_candidates) == 1:
                 msg = (
-                    f"Cannot connect '{sender_component_name}.{sender_socket_candidates[0].name}' with '{receiver_component_name}.{receiver_socket_candidates[0].name}': "
+                    f"Cannot connect '{sender_component_name}.{sender_socket_candidates[0].name}' with "
+                    f"'{receiver_component_name}.{receiver_socket_candidates[0].name}': "
                     f"their declared input and output types do not match.\n{status}"
                 )
             else:
@@ -455,7 +457,8 @@ class PipelineBase:
             if len(name_matches) != 1:
                 # There's are either no matches or more than one, we can't pick one reliably
                 msg = (
-                    f"Cannot connect '{sender_component_name}' with '{receiver_component_name}': more than one connection is possible "
+                    f"Cannot connect '{sender_component_name}' with "
+                    f"'{receiver_component_name}': more than one connection is possible "
                     "between these components. Please specify the connection name, like: "
                     f"pipeline.connect('{sender_component_name}.{possible_connections[0][0].name}', "
                     f"'{receiver_component_name}.{possible_connections[0][1].name}').\n{status}"
@@ -495,7 +498,8 @@ class PipelineBase:
         if receiver_socket.senders and not receiver_socket.is_variadic:
             # Only variadic input sockets can receive from multiple senders
             msg = (
-                f"Cannot connect '{sender_component_name}.{sender_socket.name}' with '{receiver_component_name}.{receiver_socket.name}': "
+                f"Cannot connect '{sender_component_name}.{sender_socket.name}' with "
+                f"'{receiver_component_name}.{receiver_socket.name}': "
                 f"{receiver_component_name}.{receiver_socket.name} is already connected to {receiver_socket.senders}.\n"
             )
             raise PipelineConnectError(msg)
@@ -857,7 +861,8 @@ class PipelineBase:
         """
         Distributes the output of a Component to the next Components that need it.
 
-        This also updates the queues that keep track of which Components are ready to run and which are waiting for input.
+        This also updates the queues that keep track of which Components are ready to run and which are waiting
+        for input.
 
         :param component_name: Name of the Component that created the output
         :param component_result: The output of the Component
