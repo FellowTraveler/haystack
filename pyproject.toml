@@ -76,7 +76,9 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 release-note = "reno new {args}"
-format = "ruff check {args:haystack} --fix"
+lint = "ruff check {args}"
+fix = "ruff check --fix"
+format = "ruff format {args}"
 
 [tool.hatch.envs.test]
 extra-dependencies = [
@@ -277,12 +279,22 @@ warn_unused_configs = true
 ignore_missing_imports = true
 
 [tool.ruff]
-line-length = 301
+line-length = 120
 target-version = "py38"
-exclude= ["test"]
+exclude= [
+  ".github",
+  "proposals",
+]
 
+[tool.ruff.format]
+skip-magic-trailing-comma = true
 
 [tool.ruff.lint]
+isort.split-on-trailing-comma=false
+exclude = [
+  "test/**",
+  "e2e/**",
+]
 select = [
   "ASYNC",  # flake8-async
   "C4",     # flake8-comprehensions
