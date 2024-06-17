@@ -95,7 +95,8 @@ class Pipeline(PipelineBase):
 
             return res
 
-    # TODO: We're ignoring these linting rules for the time being, after we properly optimize this function we'll remove the noqa
+    # TODO: We're ignoring these linting rules for the time being, after we properly optimize this function we'll
+    # remove the noqa
     def run(  # noqa: C901, PLR0912, PLR0915 pylint: disable=too-many-branches,too-many-locals
         self, data: Dict[str, Any], debug: bool = False, include_outputs_from: Optional[Set[str]] = None
     ) -> Dict[str, Any]:
@@ -230,7 +231,9 @@ class Pipeline(PipelineBase):
                 ):
                     there_are_non_variadics = False
                     for _, other_comp in to_run:
-                        if not any(socket.is_variadic for socket in other_comp.__haystack_input__._sockets_dict.values()):  # type: ignore
+                        if not any(
+                            socket.is_variadic for socket in other_comp.__haystack_input__._sockets_dict.values()
+                        ):  # type: ignore
                             there_are_non_variadics = True
                             break
 
@@ -279,13 +282,16 @@ class Pipeline(PipelineBase):
                         and last_waiting_for_input is not None
                         and before_last_waiting_for_input == last_waiting_for_input
                     ):
-                        # Are we actually stuck or there's a lazy variadic or a component with has only default inputs waiting for input?
-                        # This is our last resort, if there's no lazy variadic or component with only default inputs waiting for input
-                        # we're stuck for real and we can't make any progress.
+                        # Are we actually stuck or there's a lazy variadic or a component with has only default inputs
+                        # waiting for input? This is our last resort, if there's no lazy variadic or component with
+                        # only default inputs waiting for input we're stuck for real and we can't make any progress.
                         for name, comp in waiting_for_input:
-                            is_variadic = any(socket.is_variadic for socket in comp.__haystack_input__._sockets_dict.values())  # type: ignore
+                            is_variadic = any(
+                                socket.is_variadic for socket in comp.__haystack_input__._sockets_dict.values()
+                            )  # type: ignore
                             has_only_defaults = all(
-                                not socket.is_mandatory for socket in comp.__haystack_input__._sockets_dict.values()  # type: ignore
+                                not socket.is_mandatory
+                                for socket in comp.__haystack_input__._sockets_dict.values()  # type: ignore
                             )
                             if is_variadic and not comp.__haystack_is_greedy__ or has_only_defaults:  # type: ignore[attr-defined]
                                 break
@@ -326,7 +332,9 @@ class Pipeline(PipelineBase):
                             last_inputs[name] = {}
 
                         # Lazy variadics must be removed only if there's nothing else to run at this stage
-                        is_variadic = any(socket.is_variadic for socket in comp.__haystack_input__._sockets_dict.values())  # type: ignore
+                        is_variadic = any(
+                            socket.is_variadic for socket in comp.__haystack_input__._sockets_dict.values()
+                        )  # type: ignore
                         if is_variadic and not comp.__haystack_is_greedy__:  # type: ignore[attr-defined]
                             there_are_only_lazy_variadics = True
                             for other_name, other_comp in waiting_for_input:
@@ -334,7 +342,8 @@ class Pipeline(PipelineBase):
                                     continue
                                 there_are_only_lazy_variadics &= (
                                     any(
-                                        socket.is_variadic for socket in other_comp.__haystack_input__._sockets_dict.values()  # type: ignore
+                                        socket.is_variadic
+                                        for socket in other_comp.__haystack_input__._sockets_dict.values()  # type: ignore
                                     )
                                     and not other_comp.__haystack_is_greedy__  # type: ignore[attr-defined]
                                 )
@@ -342,14 +351,16 @@ class Pipeline(PipelineBase):
                             if not there_are_only_lazy_variadics:
                                 continue
 
-                        # Components that have defaults for all their inputs must be treated the same identical way as we treat
-                        # lazy variadic components. If there are only components with defaults we can run them.
-                        # If we don't do this the order of execution of the Pipeline's Components will be affected cause we
-                        # enqueue the Components in `to_run` at the start using the order they are added in the Pipeline.
-                        # If a Component A with defaults is added before a Component B that has no defaults, but in the Pipeline
-                        # logic A must be executed after B it could run instead before if we don't do this check.
+                        # Components that have defaults for all their inputs must be treated the same identical way as
+                        # we treat lazy variadic components. If there are only components with defaults we can run them.
+                        # If we don't do this the order of execution of the Pipeline's Components will be affected
+                        # because we enqueue the Components in `to_run` at the start using the order they are added in
+                        # the Pipeline. If a Component A with defaults is added before a Component B that has no
+                        # defaults, but in the Pipeline logic A must be executed after B it could run instead before if
+                        # we don't do this check.
                         has_only_defaults = all(
-                            not socket.is_mandatory for socket in comp.__haystack_input__._sockets_dict.values()  # type: ignore
+                            not socket.is_mandatory
+                            for socket in comp.__haystack_input__._sockets_dict.values()  # type: ignore
                         )
                         if has_only_defaults:
                             there_are_only_components_with_defaults = True
@@ -357,7 +368,8 @@ class Pipeline(PipelineBase):
                                 if name == other_name:
                                     continue
                                 there_are_only_components_with_defaults &= all(
-                                    not s.is_mandatory for s in other_comp.__haystack_input__._sockets_dict.values()  # type: ignore
+                                    not s.is_mandatory
+                                    for s in other_comp.__haystack_input__._sockets_dict.values()  # type: ignore
                                 )
                             if not there_are_only_components_with_defaults:
                                 continue
