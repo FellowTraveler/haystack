@@ -124,8 +124,8 @@ def _to_mermaid_text(graph: networkx.MultiDiGraph) -> str:
     }
 
     states = {
-        comp: f"{comp}[\"<b>{comp}</b><br><small><i>{type(data['instance']).__name__}{optional_inputs[comp]}\
-            </i></small>\"]:::component"
+        comp: f"{comp}[\"<b>{comp}</b><br><small><i>{type(data['instance']).__name__}{optional_inputs[comp]}"
+        '</i></small>"]:::component'
         for comp, data in graph.nodes(data=True)
         if comp not in ["input", "output"]
     }
