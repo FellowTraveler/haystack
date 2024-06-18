@@ -232,7 +232,8 @@ class Pipeline(PipelineBase):
                     there_are_non_variadics = False
                     for _, other_comp in to_run:
                         if not any(
-                            socket.is_variadic for socket in other_comp.__haystack_input__._sockets_dict.values()
+                            socket.is_variadic
+                            for socket in other_comp.__haystack_input__._sockets_dict.values()  # type: ignore
                         ):  # type: ignore
                             there_are_non_variadics = True
                             break
@@ -287,7 +288,8 @@ class Pipeline(PipelineBase):
                         # only default inputs waiting for input we're stuck for real and we can't make any progress.
                         for name, comp in waiting_for_input:
                             is_variadic = any(
-                                socket.is_variadic for socket in comp.__haystack_input__._sockets_dict.values()
+                                socket.is_variadic
+                                for socket in comp.__haystack_input__._sockets_dict.values()  # type: ignore
                             )  # type: ignore
                             has_only_defaults = all(
                                 not socket.is_mandatory
@@ -333,7 +335,8 @@ class Pipeline(PipelineBase):
 
                         # Lazy variadics must be removed only if there's nothing else to run at this stage
                         is_variadic = any(
-                            socket.is_variadic for socket in comp.__haystack_input__._sockets_dict.values()
+                            socket.is_variadic
+                            for socket in comp.__haystack_input__._sockets_dict.values()  # type: ignore
                         )  # type: ignore
                         if is_variadic and not comp.__haystack_is_greedy__:  # type: ignore[attr-defined]
                             there_are_only_lazy_variadics = True

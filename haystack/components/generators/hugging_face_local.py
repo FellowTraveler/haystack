@@ -241,7 +241,7 @@ class HuggingFaceLocalGenerator:
                 updated_generation_kwargs["num_return_sequences"] = 1
             # streamer parameter hooks into HF streaming, HFTokenStreamingHandler is an adapter to our streaming
             updated_generation_kwargs["streamer"] = HFTokenStreamingHandler(
-                self.pipeline.tokenizer,
+                self.pipeline.tokenizer,  # type: ignore
                 self.streaming_callback,
                 self.stop_words,  # type: ignore
             )

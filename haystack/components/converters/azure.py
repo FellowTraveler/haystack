@@ -89,7 +89,7 @@ class AzureOCRDocumentConverter:
         azure_import.check()
 
         self.document_analysis_client = DocumentAnalysisClient(
-            endpoint=endpoint, credential=AzureKeyCredential(api_key.resolve_value())
+            endpoint=endpoint, credential=AzureKeyCredential(api_key.resolve_value() or "")
         )  # type: ignore
         self.endpoint = endpoint
         self.model_id = model_id
