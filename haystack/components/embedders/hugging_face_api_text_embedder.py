@@ -132,6 +132,9 @@ class HuggingFaceAPITextEmbedder:
             if not is_valid_http_url(url):
                 raise ValueError(f"Invalid URL: {url}")
             model_or_url = url
+        else:
+            msg = f"Unknown api_type {api_type}"
+            raise ValueError()
 
         self.api_type = api_type
         self.api_params = api_params

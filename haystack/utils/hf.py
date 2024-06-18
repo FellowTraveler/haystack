@@ -260,6 +260,9 @@ def check_valid_model(model_id: str, model_type: HFModelType, token: Optional[Se
     elif model_type == HFModelType.GENERATION:
         allowed_model = model_info.pipeline_tag in ["text-generation", "text2text-generation"]
         error_msg = f"Model {model_id} is not a text generation model. Please provide a text generation model."
+    else:
+        allowed_model = False
+        error_msg = f"Unknown model type for {model_id}"
 
     if not allowed_model:
         raise ValueError(error_msg)
